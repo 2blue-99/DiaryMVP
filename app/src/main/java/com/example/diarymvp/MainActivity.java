@@ -29,8 +29,16 @@ public class MainActivity extends AppCompatActivity {
         /*val intent = Intent(this, loading::class.java)
         startActivity(intent)*/
 
-        Intent intent = new Intent(getApplicationContext(), loading.class);
-        startActivity(intent);
+//        Intent intent = new Intent(getApplicationContext(), loading.class);
+//        startActivity(intent);
+
+
+        Intent intent2 = getIntent();
+        String data = intent2.getStringExtra("data");
+        System.out.println("@@@@@@받은 값@@@@@"+data);
+
+
+
 
         //titleArrayList = new ArrayList<>();
         //contentArrayList = new ArrayList<>();
@@ -49,6 +57,9 @@ public class MainActivity extends AppCompatActivity {
         listDataArrayList.add(new ListData("오늘 하루 기분을 적어보자",
                 "오늘 전공 시험을 봤다.\n신나게 망쳤다.\n괜찮다 성적이 인생은 아니다."));  //임시
 
+
+
+
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
         recyclerView.setAdapter(new RecyclerView.Adapter() {
@@ -61,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
                 RecyclerView.ViewHolder viewHolder = new CustomViewHolder(itemView);
                 return viewHolder;
             }
+
 
             @Override
             public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
@@ -80,22 +92,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
         // 버튼 누를 시 SubActivity로 이동
         Button buttonAdd = findViewById(R.id.buttonAdd);
         buttonAdd.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent(getApplicationContext(), SubActivity.class);
                 startActivity(intent);
+                finish();
+
             }
         });
     }
-
-
-
     public void add(View view) {
-
-
     }
 }
 
