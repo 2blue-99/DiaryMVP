@@ -7,48 +7,38 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
     private ArrayList<ListData> listDataArrayList;
-
-    private ArrayList<String> titleArrayList;
-    private ArrayList<String> contentArrayList;
+    private TextView textViewDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /*Intent intent = new Intent(getApplicationContext(), loading.class);
-        startActivity(intent);*/
+        listDataArrayList = new ArrayList<ListData>();
+        textViewDate = findViewById(R.id.textViewDate);
 
-        titleArrayList = new ArrayList<>();
-        contentArrayList = new ArrayList<>();
+        Intent intent = getIntent();
+        String getString = intent.getStringExtra("data");
+        if(getString != null){
+            getString = getString.replace("[", "");
+            getString = getString.replace("]", "");
+            String[] data = getString.split(", ");
 
-        Intent intent2 = getIntent();
-        String data = intent2.getStringExtra("data");
-        System.out.println("@@@@@@받은 값@@@@@"+data);
-
-        // SubActivity에서 데이터 잘 넘어오는지 테스트함
-        // 잘 넘어옴! 그냥 RecyclerView layout에 안보이는 거 뿐임
-        /*Intent intent2 = getIntent();
-        String title = intent2.getStringExtra("title");
-        TextView textView = findViewById(R.id.textView3);
-        if (title != null) {
-            textView.setText(title);
-            Toast.makeText(getApplicationContext(),"데이터 넘어옴!", Toast.LENGTH_SHORT);
+            listDataArrayList.add(new ListData(data[0], data[1],data[2],data[3]));
+            // 데이터 불러오기는 성공했으나, 쌓이지 않음! 이 방법이 아닌 다른 방법을 찾아야될듯함.
         }
-        else
-            Toast.makeText(getApplicationContext(),"데이터 안 넘어옴", Toast.LENGTH_SHORT);
-        System.out.println("밖에 있는 title : " + title);*/
 
         // RecyclerView 설정 코드들
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
@@ -62,34 +52,23 @@ public class MainActivity extends AppCompatActivity {
                         .inflate(R.layout.list_viewholder_layout, parent, false);
                 RecyclerView.ViewHolder viewHolder = new CustomViewHolder(itemView);
                 return viewHolder;
-            }
+            } // adapter와 연결하는 recyclerView에 추가할 item레이아웃과 item Data를 bind함
 
-            // 실제 각 뷰 홀더에 데이터를 연결해주는 함수
             @Override
             public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
                 CustomViewHolder viewHolder = (CustomViewHolder) holder;
                 ListData listData = listDataArrayList.get(position);
 
-                viewHolder.setTitle(titleArrayList.get(position));
-                viewHolder.setContent(contentArrayList.get(position));
-
-                Intent intent = getIntent();
-                String title = intent.getStringExtra("title");
-                TextView textViewTitle = findViewById(R.id.textViewTitle);
-                if (title != null) {
-                    textViewTitle.setText(title);
-                    viewHolder.setTitle(title);
-                    Toast.makeText(getApplicationContext(),"데이터 넘어옴!", Toast.LENGTH_SHORT);
-                }
-                else
-                    Toast.makeText(getApplicationContext(),"데이터 안 넘어옴", Toast.LENGTH_SHORT);
-                System.out.println("리사이클러뷰에 있는 title : " + title);
-            }
+                viewHolder.setTitle(listData.getTitle());
+                viewHolder.setContent(listData.getContent());
+                viewHolder.setScore(listData.getScore());
+                viewHolder.setWeather(listData.getWeather());
+            } // recyclerView 자체와 item 데이터셋을 서로 연결해주는 과정
 
             @Override
             public int getItemCount() {
-                return titleArrayList.size();
-            }
+                return listDataArrayList.size();
+            } // 데이터셋의 데이터 개수이다.
         });
 
         // 버튼 누를 시 SubActivity로 이동
@@ -103,17 +82,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-    public void add(View view) {
-
-
-    }
 }
 
 /*
 button 디자인 변경
 viewholder 디자인 변경
-title, date, content 데이터 받아오기
-button 선택 시 일기 쓰는 페이지로 넘어가기
+데이터 받아오기 성공 -> but 데이터가 안쌓임.
 recyclerView 옆에 스크롤 만들어주기
  */

@@ -17,7 +17,7 @@ class SubActivity : AppCompatActivity() {
 
     private var myWeather = ""
 
-    var items = arrayOf("맑음", "흐림", "비", "눈")
+    var items = arrayOf("눈", "비", "흐림", "맑음")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         mainBinding = ActivitySubBinding.inflate(layoutInflater)
@@ -43,7 +43,6 @@ class SubActivity : AppCompatActivity() {
 
             var dataList = arrayListOf(
                 b.mainText.text.toString(),
-                b.titleText.text.toString(),
                 b.titleText.text.toString(),
                 b.star.rating.toString(),
                 myWeather
