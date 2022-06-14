@@ -17,8 +17,8 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     private ArrayList<ListData> listDataArrayList;
 
-    //private ArrayList<String> titleArrayList;
-    //private ArrayList<String> contentArrayList;
+    private ArrayList<String> titleArrayList;
+    private ArrayList<String> contentArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,11 +29,11 @@ public class MainActivity extends AppCompatActivity {
         /*val intent = Intent(this, loading::class.java)
         startActivity(intent)*/
 
-        //titleArrayList = new ArrayList<>();
-        //contentArrayList = new ArrayList<>();
-        listDataArrayList = new ArrayList<ListData>();  //임시
+        titleArrayList = new ArrayList<>();
+        contentArrayList = new ArrayList<>();
+        //listDataArrayList = new ArrayList<ListData>();  //임시
 
-        listDataArrayList.add(new ListData("오늘 하루 날씨를 적어보자",
+        /*listDataArrayList.add(new ListData("오늘 하루 날씨를 적어보자",
                 "오늘 하루는 하늘이 참 맑다. 이야야ㅑㅑ!\n산책을 나가보자."));  //임시
         listDataArrayList.add(new ListData("오늘 하루 기분을 적어보자",
                 "오늘 전공 시험을 봤다.\n신나게 망쳤다.\n괜찮다 성적이 인생은 아니다."));  //임시
@@ -44,8 +44,9 @@ public class MainActivity extends AppCompatActivity {
         listDataArrayList.add(new ListData("오늘 하루 날씨를 적어보자",
                 "오늘 하루는 하늘이 참 맑다. 이야야ㅑㅑ!\n산책을 나가보자."));  //임시
         listDataArrayList.add(new ListData("오늘 하루 기분을 적어보자",
-                "오늘 전공 시험을 봤다.\n신나게 망쳤다.\n괜찮다 성적이 인생은 아니다."));  //임시
+                "오늘 전공 시험을 봤다.\n신나게 망쳤다.\n괜찮다 성적이 인생은 아니다."));  //임시*/
 
+        // RecyclerView 설정
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
         recyclerView.setAdapter(new RecyclerView.Adapter() {
@@ -64,10 +65,10 @@ public class MainActivity extends AppCompatActivity {
                 CustomViewHolder viewHolder = (CustomViewHolder) holder;
                 ListData listData = listDataArrayList.get(position);
 
-                //viewHolder.setTitle(titleArrayList.get(position));
-                //viewHolder.setContent(contentArrayList.get(position));
-                viewHolder.setTitle(listData.getTitle());  //임시
-                viewHolder.setContent(listData.getContent());  //임시
+                viewHolder.setTitle(titleArrayList.get(position));
+                viewHolder.setContent(contentArrayList.get(position));
+                //viewHolder.setTitle(listData.getTitle());  //임시
+                //viewHolder.setContent(listData.getContent());  //임시
             }
 
             @Override
