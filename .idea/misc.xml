@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Yoo/AndroidStudioProjects/DiaryMVP/app/src/main/res/layout/activity_loading.xml" value="0.22056159420289856" />
         <entry key="..\:/Users/Yoo/AndroidStudioProjects/DiaryMVP/app/src/main/res/layout/activity_main.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/Yoo/AndroidStudioProjects/DiaryMVP/app/src/main/res/layout/list_viewholder_layout.xml" value="0.1" />
       </map>
@@ -13,5 +14,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="SuppressABINotification">
+    <option name="modulesWithSuppressedNotConfigured">
+      <set>
+        <option value="DiaryMVP.app" />
+      </set>
+    </option>
   </component>
 </project>
