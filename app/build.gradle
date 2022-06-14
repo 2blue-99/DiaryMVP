@@ -1,8 +1,16 @@
 plugins {
     id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
 }
 
 android {
+
+    buildTypes {
+        buildFeatures {
+            viewBinding true
+        }
+    }
+
     compileSdk 32
 
     defaultConfig {
