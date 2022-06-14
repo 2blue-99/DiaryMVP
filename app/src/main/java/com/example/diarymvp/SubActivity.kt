@@ -16,10 +16,6 @@ class SubActivity : AppCompatActivity() {
         mainBinding = ActivitySubBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(b.root)
-
-
-//        val intent = Intent(this, loading::class.java)
-//        startActivity(intent)
     }
 
 
@@ -27,12 +23,16 @@ class SubActivity : AppCompatActivity() {
         if(b.mainText.text.toString() != "" && b.titleText.text.toString() != ""){
             Toast.makeText(this, "저장 완료", Toast.LENGTH_SHORT).show()
 
-            var dataList = arrayListOf(
+            /*var dataList = arrayListOf(
                 b.mainText.text.toString(),
                 b.titleText.text.toString()
             )
             var intent = Intent(this, MainActivity::class.java)
             intent.putExtra("data", dataList)
+            startActivity(intent)*/
+
+            var intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("title", b.titleText.text.toString())
             startActivity(intent)
 
         }

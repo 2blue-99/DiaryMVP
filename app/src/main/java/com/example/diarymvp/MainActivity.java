@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,38 +19,44 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     private ArrayList<ListData> listDataArrayList;
 
-    //private ArrayList<String> titleArrayList;
-    //private ArrayList<String> contentArrayList;
+    private ArrayList<String> titleArrayList;
+    private ArrayList<String> contentArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // 코틀린 코드, loading 불러오기
-        /*val intent = Intent(this, loading::class.java)
-        startActivity(intent)*/
-
         Intent intent = new Intent(getApplicationContext(), loading.class);
         startActivity(intent);
 
-        //titleArrayList = new ArrayList<>();
-        //contentArrayList = new ArrayList<>();
-        listDataArrayList = new ArrayList<ListData>();  //임시
+        titleArrayList = new ArrayList<>();
+        contentArrayList = new ArrayList<>();
 
-        listDataArrayList.add(new ListData("오늘 하루 날씨를 적어보자",
-                "오늘 하루는 하늘이 참 맑다. 이야야ㅑㅑ!\n산책을 나가보자."));  //임시
-        listDataArrayList.add(new ListData("오늘 하루 기분을 적어보자",
-                "오늘 전공 시험을 봤다.\n신나게 망쳤다.\n괜찮다 성적이 인생은 아니다."));  //임시
-        listDataArrayList.add(new ListData("오늘 하루 날씨를 적어보자",
-                "오늘 하루는 하늘이 참 맑다. 이야야ㅑㅑ!\n산책을 나가보자."));  //임시
-        listDataArrayList.add(new ListData("오늘 하루 기분을 적어보자",
-                "오늘 전공 시험을 봤다.\n신나게 망쳤다.\n괜찮다 성적이 인생은 아니다."));  //임시
-        listDataArrayList.add(new ListData("오늘 하루 날씨를 적어보자",
-                "오늘 하루는 하늘이 참 맑다. 이야야ㅑㅑ!\n산책을 나가보자."));  //임시
-        listDataArrayList.add(new ListData("오늘 하루 기분을 적어보자",
-                "오늘 전공 시험을 봤다.\n신나게 망쳤다.\n괜찮다 성적이 인생은 아니다."));  //임시
+        // SubActivity에서 데이터 잘 넘어오는지 테스트함
+        // 잘 넘어옴! 그냥 RecyclerView layout에 안보이는 거 뿐임
+        Intent intent2 = getIntent();
+        String title = intent2.getStringExtra("title");
+        TextView textView = findViewById(R.id.textView3);
+        if (title != null) {
+            textView.setText(title);
+            Toast.makeText(getApplicationContext(),"데이터 넘어옴!", Toast.LENGTH_SHORT);
+        }
+        else
+            Toast.makeText(getApplicationContext(),"데이터 안 넘어옴", Toast.LENGTH_SHORT);
+        System.out.println("밖에 있는 title : " + title);
 
+        /*
+        // 배열 형식을 어떻게 하나씩 꺼내서 넣을지 알아보기!
+        Intent intent1 = getIntent();
+        String[] data = new String[2];
+        for(int i = 0; i < data.length; i++)
+            data[i] = intent1.getStringArrayExtra("data");
+        TextView textView = findViewById(R.id.textView3);
+        textView.setText(data[0]);
+        */
+
+        // RecyclerView 설정 코드들
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
         recyclerView.setAdapter(new RecyclerView.Adapter() {
@@ -62,21 +70,35 @@ public class MainActivity extends AppCompatActivity {
                 return viewHolder;
             }
 
+            // 실제 각 뷰 홀더에 데이터를 연결해주는 함수
             @Override
             public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
                 CustomViewHolder viewHolder = (CustomViewHolder) holder;
                 ListData listData = listDataArrayList.get(position);
 
-                //viewHolder.setTitle(titleArrayList.get(position));
-                //viewHolder.setContent(contentArrayList.get(position));
-                viewHolder.setTitle(listData.getTitle());  //임시
-                viewHolder.setContent(listData.getContent());  //임시
+                viewHolder.setTitle(titleArrayList.get(position));
+                viewHolder.setContent(contentArrayList.get(position));
+
+                Intent intent = getIntent();
+                String title = intent.getStringExtra("title");
+                TextView textViewTitle = findViewById(R.id.textViewTitle);
+                if (title != null) {
+                    textViewTitle.setText(title);
+                    viewHolder.setTitle(title);
+                    Toast.makeText(getApplicationContext(),"데이터 넘어옴!", Toast.LENGTH_SHORT);
+                }
+                else
+                    Toast.makeText(getApplicationContext(),"데이터 안 넘어옴", Toast.LENGTH_SHORT);
+                System.out.println("리사이클러뷰에 있는 title : " + title);
+
+                //viewHolder.setTitle(listData.getTitle());  //임시
+                //viewHolder.setContent(listData.getContent());  //임시
             }
 
             @Override
             public int getItemCount() {
-                //return titleArrayList.size();
-                return listDataArrayList.size();  //임시
+                return titleArrayList.size();
+                //return listDataArrayList.size();  //임시
             }
         });
 
@@ -92,6 +114,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
+    /*Intent intent = getIntent();
+    String text = intent.getStringExtra("text");
+    TextView textViewContent = findViewById();*/
 
     public void add(View view) {
 
