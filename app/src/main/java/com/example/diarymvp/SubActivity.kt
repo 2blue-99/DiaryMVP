@@ -5,21 +5,22 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import com.example.mydiary.databinding.ActivityMainBinding
+import com.example.diarymvp.databinding.ActivitySubBinding
 
-class WriteActivity : AppCompatActivity() {
+class SubActivity : AppCompatActivity() {
 
-    private var mainBinding: ActivityMainBinding? = null
+    private var mainBinding: ActivitySubBinding? = null
     private val b get() = mainBinding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        mainBinding = ActivitySubBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
-        mainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(b.root)
 
         val intent = Intent(this, loading::class.java)
         startActivity(intent)
     }
+
 
     fun save(view: View) {
         if(b.mainText.text.toString() != "" && b.titleText.text.toString() != ""){
@@ -29,7 +30,7 @@ class WriteActivity : AppCompatActivity() {
                 b.mainText.text.toString(),
                 b.titleText.text.toString()
             )
-            var intent = Intent(this, WriteActivity::class.java)
+            var intent = Intent(this, MainActivity::class.java)
             intent.putExtra("data", dataList)
             startActivity(intent)
 
@@ -42,4 +43,6 @@ class WriteActivity : AppCompatActivity() {
         Toast.makeText(this, "뒤로가기", Toast.LENGTH_SHORT).show()
         finish()
     }
+
+
 }
