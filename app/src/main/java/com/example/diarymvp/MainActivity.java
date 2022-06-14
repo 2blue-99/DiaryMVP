@@ -27,11 +27,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Intent intent = new Intent(getApplicationContext(), loading.class);
-        startActivity(intent);
+        /*Intent intent = new Intent(getApplicationContext(), loading.class);
+        startActivity(intent);*/
 
         titleArrayList = new ArrayList<>();
         contentArrayList = new ArrayList<>();
+
+        Intent intent2 = getIntent();
+        String data = intent2.getStringExtra("data");
+        System.out.println("@@@@@@받은 값@@@@@"+data);
 
         // SubActivity에서 데이터 잘 넘어오는지 테스트함
         // 잘 넘어옴! 그냥 RecyclerView layout에 안보이는 거 뿐임
@@ -95,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), SubActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
     }
