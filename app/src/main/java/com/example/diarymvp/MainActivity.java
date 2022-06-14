@@ -29,6 +29,9 @@ public class MainActivity extends AppCompatActivity {
         /*val intent = Intent(this, loading::class.java)
         startActivity(intent)*/
 
+        Intent intent = new Intent(getApplicationContext(), loading.class);
+        startActivity(intent);
+
         //titleArrayList = new ArrayList<>();
         //contentArrayList = new ArrayList<>();
         listDataArrayList = new ArrayList<ListData>();  //임시
