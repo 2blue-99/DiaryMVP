@@ -12,6 +12,6 @@ class loading : AppCompatActivity() {
     }
     private fun startLoading(){
         val handler = Handler()
-        handler.postDelayed({finish()}, 2000)
+        handler.postDelayed({finish()}, 1500)
     }
 }

@@ -25,13 +25,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // 코틀린 코드, loading 불러오기
-        /*val intent = Intent(this, loading::class.java)
-        startActivity(intent)*/
-
         titleArrayList = new ArrayList<>();
         contentArrayList = new ArrayList<>();
         //listDataArrayList = new ArrayList<ListData>();  //임시
+
+        Intent intent = new Intent(getApplicationContext(), loading.class);
+        startActivity(intent);
+
+        //titleArrayList = new ArrayList<>();
+        //contentArrayList = new ArrayList<>();
+        listDataArrayList = new ArrayList<ListData>();  //임시
 
         /*listDataArrayList.add(new ListData("오늘 하루 날씨를 적어보자",
                 "오늘 하루는 하늘이 참 맑다. 이야야ㅑㅑ!\n산책을 나가보자."));  //임시

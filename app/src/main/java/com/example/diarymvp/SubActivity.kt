@@ -16,9 +16,6 @@ class SubActivity : AppCompatActivity() {
         mainBinding = ActivitySubBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(b.root)
-
-        val intent = Intent(this, loading::class.java)
-        startActivity(intent)
     }
 
 
