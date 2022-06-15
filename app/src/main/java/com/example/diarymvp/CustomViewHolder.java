@@ -11,10 +11,13 @@ public class CustomViewHolder extends RecyclerView.ViewHolder {
     private final TextView textView_content;
     private final TextView textView_score;
     private final TextView textView_weather;
+    private final TextView textView_date;
     private String title;
     private String content;
     private String score;
     private String weather;
+    private String date;
+
 
     public CustomViewHolder(View itemView) {
         super(itemView);
@@ -23,6 +26,7 @@ public class CustomViewHolder extends RecyclerView.ViewHolder {
         textView_content = itemView.findViewById(R.id.textViewContent);
         textView_score = itemView.findViewById(R.id.textViewScore);
         textView_weather = itemView.findViewById(R.id.textViewWeather);
+        textView_date = itemView.findViewById(R.id.textViewDate);
     }
 
     public void setTitle(String title) {
@@ -40,5 +44,9 @@ public class CustomViewHolder extends RecyclerView.ViewHolder {
     public void setWeather(String weather){
         this.score = weather;
         textView_weather.setText(weather);
+    }
+    public void setDate(String date) {
+        this.date = date;
+        textView_date.setText(date);
     }
 }

@@ -5,12 +5,14 @@ public class ListData {
     private String content;
     private String score;
     private String weather;
+    private String date;
 
-    public ListData(String title, String content, String score, String weather){
+    public ListData(String title, String content, String score, String weather, String date){
         this.title = title;
         this.content = content;
         this.score = score;
         this.weather = weather;
+        this.date = date;
     }
 
     public String getTitle() {
@@ -25,4 +27,5 @@ public class ListData {
     public String getWeather() {
         return weather;
     }
+    public String getDate(){ return date; }
 }

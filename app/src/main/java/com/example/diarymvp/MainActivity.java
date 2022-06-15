@@ -23,7 +23,9 @@ public class MainActivity extends AppCompatActivity {
     private TextView textViewDate;
     private String[] data;
     private SharedPreferences preferences;
+
     private RecyclerView.Adapter adapter;
+    private String getTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         listDataArrayList = new ArrayList<ListData>();
         textViewDate = findViewById(R.id.textViewDate);
 
+        getTime();
         // 데이터 받고, 저장하고, 불러오기
         setData();
         if (data != null){ // 처음 시작할 때는 파일 안에 데이터가 없어서, null 오류가 뜸. 그래서 if로 오류 안나게 함. if-else문에 똑같은 코드가 들어가서 너무 비효율적! 방법 생각해보기
@@ -69,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
                 viewHolder.setContent(listData.getContent());
                 viewHolder.setScore(listData.getScore());
                 viewHolder.setWeather(listData.getWeather());
+                viewHolder.setDate(listData.getDate());
             } // recyclerView 자체와 item 데이터셋을 서로 연결해주는 과정
 
             @Override
@@ -90,9 +94,18 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    protected String getTime(){
+        long now = System.currentTimeMillis();
+        Date date = new Date(now);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
+        getTime = dateFormat.format(date);
+
+        return getTime;
+    }
     protected void setData(){ // 데이터 받아와서 저장하는 함수
         preferences = getSharedPreferences("listData", MODE_PRIVATE);  // SharedPreferences를 sFile이름, 기본모드로 설정
         SharedPreferences.Editor editor = preferences.edit();  // 저장을 하기위해 editor를 이용하여 값을 저장시켜준다.
+        getTime();
 
         Intent intent = getIntent();
         String getString = intent.getStringExtra("data");
@@ -106,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
             editor.putString("content", data[1]);
             editor.putString("score", data[2]);
             editor.putString("weather", data[3]);
+            editor.putString("date", getTime);
 
             editor.commit();  //항상 commit & apply 를 해주어야 저장이 된다.
         }
@@ -113,7 +127,8 @@ public class MainActivity extends AppCompatActivity {
     protected void getData(){ // 저장한 데이터 불러오는 함수
         listDataArrayList.add(new ListData(
                 preferences.getString("title", ""), preferences.getString("content", ""),
-                preferences.getString("score", ""), preferences.getString("weather", "")
+                preferences.getString("score", ""), preferences.getString("weather", ""),
+                preferences.getString("date", "")
         ));
         //adapter.notifyDataSetChanged();
     }
