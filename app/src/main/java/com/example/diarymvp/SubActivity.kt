@@ -42,8 +42,8 @@ class SubActivity : AppCompatActivity() {
             Toast.makeText(this, "저장 완료", Toast.LENGTH_SHORT).show()
 
             var dataList = arrayListOf(
-                b.mainText.text.toString(),
                 b.titleText.text.toString(),
+                b.mainText.text.toString(),
                 b.star.rating.toString(),
                 myWeather
             )

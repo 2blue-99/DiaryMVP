@@ -1,6 +1,7 @@
 package com.example.diarymvp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,9 @@ import java.util.Date;
 public class MainActivity extends AppCompatActivity {
     private ArrayList<ListData> listDataArrayList;
     private TextView textViewDate;
+    private String[] data;
+    private SharedPreferences preferences;
+    private RecyclerView.Adapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,21 +33,23 @@ public class MainActivity extends AppCompatActivity {
         listDataArrayList = new ArrayList<ListData>();
         textViewDate = findViewById(R.id.textViewDate);
 
-        Intent intent = getIntent();
-        String getString = intent.getStringExtra("data");
-        if(getString != null){
-            getString = getString.replace("[", "");
-            getString = getString.replace("]", "");
-            String[] data = getString.split(", ");
-
-            listDataArrayList.add(new ListData(data[0], data[1],data[2],data[3]));
-            // 데이터 불러오기는 성공했으나, 쌓이지 않음! 이 방법이 아닌 다른 방법을 찾아야될듯함.
+        // 데이터 받고, 저장하고, 불러오기
+        setData();
+        if (data != null){ // 처음 시작할 때는 파일 안에 데이터가 없어서, null 오류가 뜸. 그래서 if로 오류 안나게 함. if-else문에 똑같은 코드가 들어가서 너무 비효율적! 방법 생각해보기
+            getData();
         }
+        else {
+            getData();
+        }
+        // 이렇게 한 이유는 처음 시작할 때는 파일 안에 데이터가 없어서 null로 인식되어 오류가 남.
+        // else로 하면 시작할 때마다, 맨 마지막으로 저장한 데이터가 뜸
+        // 데이터 저장을 파일로하는건 했는데, 쌓이는건 어떻게하는지 모르겠....다.
+
 
         // RecyclerView 설정 코드들
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-        recyclerView.setAdapter(new RecyclerView.Adapter() {
+        adapter = new RecyclerView.Adapter() {
             @NonNull
             @Override
             public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -69,7 +75,8 @@ public class MainActivity extends AppCompatActivity {
             public int getItemCount() {
                 return listDataArrayList.size();
             } // 데이터셋의 데이터 개수이다.
-        });
+        };
+        recyclerView.setAdapter(adapter);
 
         // 버튼 누를 시 SubActivity로 이동
         Button buttonAdd = findViewById(R.id.buttonAdd);
@@ -82,11 +89,37 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    protected void setData(){ // 데이터 받아와서 저장하는 함수
+        preferences = getSharedPreferences("listData", MODE_PRIVATE);  // SharedPreferences를 sFile이름, 기본모드로 설정
+        SharedPreferences.Editor editor = preferences.edit();  // 저장을 하기위해 editor를 이용하여 값을 저장시켜준다.
+
+        Intent intent = getIntent();
+        String getString = intent.getStringExtra("data");
+        if(getString != null){
+            getString = getString.replace("[", "");
+            getString = getString.replace("]", "");
+            data = getString.split(", ");
+            System.out.println("data 넘어옴 : " + data[0] + "," + data[1] + "," + data[2] + "," + data[3]);
+
+            editor.putString("title", data[0]); // key, value를 이용하여 저장하는 형태
+            editor.putString("content", data[1]);
+            editor.putString("score", data[2]);
+            editor.putString("weather", data[3]);
+
+            editor.commit();  //항상 commit & apply 를 해주어야 저장이 된다.
+        }
+    }
+    protected void getData(){ // 저장한 데이터 불러오는 함수
+        listDataArrayList.add(new ListData(
+                preferences.getString("title", ""), preferences.getString("content", ""),
+                preferences.getString("score", ""), preferences.getString("weather", "")
+        ));
+        //adapter.notifyDataSetChanged();
+    }
 }
 
 /*
-button 디자인 변경
 viewholder 디자인 변경
-데이터 받아오기 성공 -> but 데이터가 안쌓임.
-recyclerView 옆에 스크롤 만들어주기
+데이터 받고, 저장하고, 저장한거 부르기 성공! -> but 데이터가 쌓이지 않음. 해결하기
  */
