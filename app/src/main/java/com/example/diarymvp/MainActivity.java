@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     private RecyclerView.Adapter adapter;
     private String getTime;
+    private String A;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,12 +39,13 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         // 데이터 받고, 저장하고, 불러오기
         setData();
-        if (data != null){ // 처음 시작할 때는 파일 안에 데이터가 없어서, null 오류가 뜸. 그래서 if로 오류 안나게 함. if-else문에 똑같은 코드가 들어가서 너무 비효율적! 방법 생각해보기
+        getData();
+        /*if (data != null){ // 처음 시작할 때는 파일 안에 데이터가 없어서, null 오류가 뜸. 그래서 if로 오류 안나게 함. if-else문에 똑같은 코드가 들어가서 너무 비효율적! 방법 생각해보기
             getData();
         }
         else {
             getData();
-        }
+        }*/
         // 이렇게 한 이유는 처음 시작할 때는 파일 안에 데이터가 없어서 null로 인식되어 오류가 남.
         // else로 하면 시작할 때마다, 맨 마지막으로 저장한 데이터가 뜸
         // 데이터 저장을 파일로하는건 했는데, 쌓이는건 어떻게하는지 모르겠....다.
@@ -102,17 +104,20 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         return getTime;
     }
+
     protected void setData(){ // 데이터 받아와서 저장하는 함수
         preferences = getSharedPreferences("listData", MODE_PRIVATE);  // SharedPreferences를 sFile이름, 기본모드로 설정
         SharedPreferences.Editor editor = preferences.edit();  // 저장을 하기위해 editor를 이용하여 값을 저장시켜준다.
         getTime();
 
-        Intent intent = getIntent();
-        String getString = intent.getStringExtra("data");
-        if(getString != null){
-            getString = getString.replace("[", "");
-            getString = getString.replace("]", "");
-            data = getString.split(", ");
+        /*Intent intent = getIntent();
+        String getString = intent.getStringExtra("data");*/
+        if(A != null){
+            A = A.replace("[", "");
+            A = A.replace("]", "");
+            data = A.split(", ");
+            System.out.println("data : " + data[0] + "," + data[1] + "," + data[2] + "," + data[3]);
+            System.out.println("getTime : " + getTime);
 
             editor.putString("title", data[0]); // key, value를 이용하여 저장하는 형태
             editor.putString("content", data[1]);
@@ -121,15 +126,20 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             editor.putString("date", getTime);
 
             editor.commit();  //항상 commit & apply 를 해주어야 저장이 된다.
+            getData();
         }
     }
     protected void getData(){ // 저장한 데이터 불러와서 집어넣는 함수
+        System.out.println("getData 함수 실행은 됨");
         listDataArrayList.add(new ListData(
                 preferences.getString("title", ""), preferences.getString("content", ""),
                 preferences.getString("score", ""), preferences.getString("weather", ""),
                 preferences.getString("date", "")
         ));
-        //adapter.notifyDataSetChanged();
+
+        if(data != null){
+            adapter.notifyDataSetChanged();
+        }
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent resultIntent) {
@@ -137,13 +147,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         System.out.println("@@onActivityResult@@");
         super.onActivityResult(requestCode, resultCode, resultIntent);
         if (requestCode == 1234 && resultCode == 5678) {
-            String A = resultIntent.getStringExtra("data");
-            System.out.println("onActivityResult!!!! "+A);
+            A = resultIntent.getStringExtra("data");
+            System.out.println("onActivityResult!!!! "+ A);
         }
     }
-
     @Override
-    // sub에서 데이터 넘기면 윗 함수 다음 일로 옴
+    // SubActivity에서 데이터 넘기면 윗 함수 다음 일로 옴
     // 여기서 넘겨받을때마다 리스트에 추가시키면 될듯함.
     protected void onResume() {
         System.out.println("@@onResume@@");
