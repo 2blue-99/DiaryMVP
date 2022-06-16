@@ -18,7 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainContract.View{
     private ArrayList<ListData> listDataArrayList;
     private TextView textViewDate;
     private String[] data;
@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
         listDataArrayList = new ArrayList<ListData>();
         textViewDate = findViewById(R.id.textViewDate);
 
-        getTime();
         // 데이터 받고, 저장하고, 불러오기
         setData();
         if (data != null){ // 처음 시작할 때는 파일 안에 데이터가 없어서, null 오류가 뜸. 그래서 if로 오류 안나게 함. if-else문에 똑같은 코드가 들어가서 너무 비효율적! 방법 생각해보기
@@ -94,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    protected String getTime(){
+    protected String getTime(){  // 오늘 날짜 구하는 함수
         long now = System.currentTimeMillis();
         Date date = new Date(now);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
@@ -113,18 +112,17 @@ public class MainActivity extends AppCompatActivity {
             getString = getString.replace("[", "");
             getString = getString.replace("]", "");
             data = getString.split(", ");
-            System.out.println("data 넘어옴 : " + data[0] + "," + data[1] + "," + data[2] + "," + data[3]);
 
             editor.putString("title", data[0]); // key, value를 이용하여 저장하는 형태
             editor.putString("content", data[1]);
             editor.putString("score", data[2]);
-            editor.putString("weather", data[3]);
+            editor.putString("weather", data[3]);  // for문으로 줄여볼까 했지만 key 때문에 안됨.
             editor.putString("date", getTime);
 
             editor.commit();  //항상 commit & apply 를 해주어야 저장이 된다.
         }
     }
-    protected void getData(){ // 저장한 데이터 불러오는 함수
+    protected void getData(){ // 저장한 데이터 불러와서 집어넣는 함수
         listDataArrayList.add(new ListData(
                 preferences.getString("title", ""), preferences.getString("content", ""),
                 preferences.getString("score", ""), preferences.getString("weather", ""),
