@@ -28,7 +28,7 @@ class SubActivity : AppCompatActivity() {
         b.spinner.onItemSelectedListener = object:AdapterView.OnItemSelectedListener{
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 println(items[p2])
-                myWeather = items[2]
+                myWeather = items[p2]
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 println("암것도 선택안함")
@@ -49,9 +49,10 @@ class SubActivity : AppCompatActivity() {
             )
             var intent = Intent(this, MainActivity::class.java)
             intent.putExtra("data", dataList.toString())
-            startActivity(intent)
-            finish()
+//            startActivity(intent)
+            setResult(5678, intent)
             println("@@@보내는 값@@@"+dataList)
+            finish()
 
         }
         else

@@ -3,6 +3,7 @@ package com.example.diarymvp;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,8 +88,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), SubActivity.class);
-                startActivity(intent);
-                finish();
+                startActivityForResult(intent, 1234);
+//                finish();
             }
         });
     }
@@ -130,6 +131,26 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         ));
         //adapter.notifyDataSetChanged();
     }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent resultIntent) {
+        Log.d(MainActivity.class.getSimpleName(), "getTime: ");
+        System.out.println("@@onActivityResult@@");
+        super.onActivityResult(requestCode, resultCode, resultIntent);
+        if (requestCode == 1234 && resultCode == 5678) {
+            String A = resultIntent.getStringExtra("data");
+            System.out.println("onActivityResult!!!! "+A);
+        }
+    }
+
+    @Override
+    // sub에서 데이터 넘기면 윗 함수 다음 일로 옴
+    // 여기서 넘겨받을때마다 리스트에 추가시키면 될듯함.
+    protected void onResume() {
+        System.out.println("@@onResume@@");
+        super.onResume();
+        setData();
+    }
+
 }
 
 /*
