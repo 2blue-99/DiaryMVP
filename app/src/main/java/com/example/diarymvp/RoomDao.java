@@ -8,7 +8,7 @@ import androidx.room.Query;
 import java.util.List;
 
 @Dao
-public interface MainDao {
+public interface RoomDao {
     @Query("")
     List<ListData> getAll();
 
