@@ -1,7 +1,9 @@
 package com.example.diarymvp;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,6 +29,16 @@ public class CustomViewHolder extends RecyclerView.ViewHolder {
         textView_score = itemView.findViewById(R.id.textViewScore);
         textView_weather = itemView.findViewById(R.id.textViewWeather);
         textView_date = itemView.findViewById(R.id.textViewDate);
+
+        /*itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = getAdapterPosition();
+                System.out.println("position : " + position);
+
+                // putExtra로 데이터를... 보내려고 했지만 Room이란것으로 바뀌었다
+            }
+        });*/
     }
 
     public void setTitle(String title) {
