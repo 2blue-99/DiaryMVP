@@ -18,18 +18,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements MainContract.View{
     private ArrayList<ListData> listDataArrayList;
     private TextView textViewDate;
     private String[] data;
-    private SharedPreferences preferences;
+    //private SharedPreferences preferences;
 
     private RecyclerView.Adapter adapter;
     private String getTime;
     private String A;
     private ArrayList<String> testlist;
-    private ArrayList<ArrayList<String>> datalist;
+    /*private List<ListData> datalist;
+    private RoomDB database;*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,20 +41,17 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         listDataArrayList = new ArrayList<ListData>();
         textViewDate = findViewById(R.id.textViewDate);
 
-        datalist = new ArrayList<ArrayList<String>>();
+        /*datalist = new ArrayList<ListData>();
+
+        database = RoomDB.getInstance(MainActivity.this);
+        datalist = database.mainDao().getAll();*/
+
 
         // 데이터 받고, 저장하고, 불러오기
-        setData();
-        getData();
-        /*if (data != null){ // 처음 시작할 때는 파일 안에 데이터가 없어서, null 오류가 뜸. 그래서 if로 오류 안나게 함. if-else문에 똑같은 코드가 들어가서 너무 비효율적! 방법 생각해보기
-            getData();
-        }
-        else {
-            getData();
-        }*/
-        // 이렇게 한 이유는 처음 시작할 때는 파일 안에 데이터가 없어서 null로 인식되어 오류가 남.
-        // else로 하면 시작할 때마다, 맨 마지막으로 저장한 데이터가 뜸
-        // 데이터 저장을 파일로하는건 했는데, 쌓이는건 어떻게하는지 모르겠....다.
+        //setData();
+        //getData();
+
+        listDataArrayList.add(new ListData(0 ,data[0], data[1],data[2],data[3], getTime));
 
 
         // RecyclerView 설정 코드들
@@ -73,12 +72,18 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
                 CustomViewHolder viewHolder = (CustomViewHolder) holder;
                 ListData listData = listDataArrayList.get(position);
+                /*database = RoomDB.getInstance(MainActivity.this);*/
 
                 viewHolder.setTitle(listData.getTitle());
                 viewHolder.setContent(listData.getContent());
                 viewHolder.setScore(listData.getScore());
                 viewHolder.setWeather(listData.getWeather());
                 viewHolder.setDate(listData.getDate());
+
+                /*database.mainDao().insert(listData);
+                listDataArrayList.clear();
+                listDataArrayList.addAll(database.mainDao().getAll());
+                adapter.notifyDataSetChanged();*/
             } // recyclerView 자체와 item 데이터셋을 서로 연결해주는 과정
 
             @Override
@@ -110,8 +115,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     protected void setData(){ // 데이터 받아와서 저장하는 함수
-        preferences = getSharedPreferences("listData", MODE_PRIVATE);  // SharedPreferences를 sFile이름, 기본모드로 설정
-        SharedPreferences.Editor editor = preferences.edit();  // 저장을 하기위해 editor를 이용하여 값을 저장시켜준다.
+        //preferences = getSharedPreferences("listData", MODE_PRIVATE);  // SharedPreferences를 sFile이름, 기본모드로 설정
+        //SharedPreferences.Editor editor = preferences.edit();  // 저장을 하기위해 editor를 이용하여 값을 저장시켜준다.
         getTime();
 
         /*Intent intent = getIntent();
@@ -123,13 +128,13 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             System.out.println("data : " + data[0] + "," + data[1] + "," + data[2] + "," + data[3]);
             System.out.println("getTime : " + getTime);
 
-            editor.putString("title", data[0]); // key, value를 이용하여 저장하는 형태
+            /*editor.putString("title", data[0]); // key, value를 이용하여 저장하는 형태
             editor.putString("content", data[1]);
             editor.putString("score", data[2]);
             editor.putString("weather", data[3]);  // for문으로 줄여볼까 했지만 key 때문에 안됨.
             editor.putString("date", getTime);
 
-            editor.commit();  //항상 commit & apply 를 해주어야 저장이 된다.
+            editor.commit();  //항상 commit & apply 를 해주어야 저장이 된다.*/
             getData();
         }
     }
@@ -142,6 +147,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         ));*/
 
 
+
         if(data != null){
             /*listDataArrayList.add(new ListData(data[0], data[1], data[2], data[3], getTime));
             testlist = new ArrayList<String>();
@@ -151,7 +157,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
             for(int i = 0; i < testlist.size() - 4; i++) datalist.add(testlist);
             */
-            adapter.notifyDataSetChanged();
         }
     }
 
