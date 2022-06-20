@@ -1,6 +1,12 @@
 package com.example.diarymvp;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
 public class ListData {
+    @PrimaryKey @NonNull
     private String title;
     private String content;
     private String score;
