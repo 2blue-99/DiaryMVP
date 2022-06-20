@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     private String getTime;
     private String A;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -158,6 +159,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         System.out.println("@@onResume@@");
         super.onResume();
         setData();
+
+
     }
 
 }

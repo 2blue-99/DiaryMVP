@@ -8,6 +8,8 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.lifecycle.Observer
+import androidx.room.Room
 import com.example.diarymvp.databinding.ActivitySubBinding
 
 class SubActivity : AppCompatActivity() {
@@ -38,6 +40,21 @@ class SubActivity : AppCompatActivity() {
 
 
     fun save(view: View) {
+
+        //db연결
+        val db = Room.databaseBuilder(
+            applicationContext, AppDatabase::class.java, "database"
+        ).allowMainThreadQueries().build()
+
+        //         글을 쓰고 버튼을 누르면 db에 저장
+        db.dao().insert(Entity(b.titleText.text.toString(),"${b.mainText.text.toString()}","${b.star.rating.toString()}","$myWeather"))
+
+        // db에 저장된 데이터 불러오기
+        db.dao().getAll().observe(this, Observer { todos ->
+            println("@@@@@"+todos.toString())
+        })
+
+
         if(b.mainText.text.toString() != "" && b.titleText.text.toString() != ""){
             Toast.makeText(this, "저장 완료", Toast.LENGTH_SHORT).show()
 
