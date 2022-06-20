@@ -136,14 +136,14 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
     protected void getData(){ // 저장한 데이터 불러와서 집어넣는 함수
         System.out.println("getData 함수 실행은 됨");
-        /*listDataArrayList.add(new ListData(
-                preferences.getString("title", ""), preferences.getString("content", ""),
-                preferences.getString("score", ""), preferences.getString("weather", ""),
-                preferences.getString("date", "")
-        ));*/
-
 
         if(data != null){
+            listDataArrayList.add(new ListData(
+                    preferences.getString("title", ""), preferences.getString("content", ""),
+                    preferences.getString("score", ""), preferences.getString("weather", ""),
+                    preferences.getString("date", "")
+            ));
+
             /*listDataArrayList.add(new ListData(data[0], data[1], data[2], data[3], getTime));
             testlist = new ArrayList<String>();
 
