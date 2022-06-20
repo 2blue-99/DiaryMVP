@@ -28,6 +28,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     private RecyclerView.Adapter adapter;
     private String getTime;
     private String A;
+    private ArrayList<String> testlist;
+    private ArrayList<ArrayList<String>> datalist;
 
 
     @Override
@@ -37,6 +39,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         listDataArrayList = new ArrayList<ListData>();
         textViewDate = findViewById(R.id.textViewDate);
+
+        datalist = new ArrayList<ArrayList<String>>();
 
         // 데이터 받고, 저장하고, 불러오기
         setData();
@@ -132,13 +136,22 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
     protected void getData(){ // 저장한 데이터 불러와서 집어넣는 함수
         System.out.println("getData 함수 실행은 됨");
-        listDataArrayList.add(new ListData(
+        /*listDataArrayList.add(new ListData(
                 preferences.getString("title", ""), preferences.getString("content", ""),
                 preferences.getString("score", ""), preferences.getString("weather", ""),
                 preferences.getString("date", "")
-        ));
+        ));*/
+
 
         if(data != null){
+            /*listDataArrayList.add(new ListData(data[0], data[1], data[2], data[3], getTime));
+            testlist = new ArrayList<String>();
+
+            for(int i = 0; i < data.length; i++) testlist.add(data[i]);
+            testlist.add(getTime);
+
+            for(int i = 0; i < testlist.size() - 4; i++) datalist.add(testlist);
+            */
             adapter.notifyDataSetChanged();
         }
     }

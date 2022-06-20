@@ -62,7 +62,7 @@ class SubActivity : AppCompatActivity() {
                 b.titleText.text.toString(),
                 b.mainText.text.toString(),
                 b.star.rating.toString(),
-                myWeather
+                myWeatherr
             )
             var intent = Intent(this, MainActivity::class.java)
             intent.putExtra("data", dataList.toString())
