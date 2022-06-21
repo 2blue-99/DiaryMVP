@@ -4,7 +4,7 @@ import android.content.Context
 
 class Presenter() : Contractor.Presenter{
     fun getData(dataList: ArrayList<String>){
-        Model(Context).saveData(dataList)
+//        Model(Context).saveData(dataList)
     }
 
     override fun getData() {
