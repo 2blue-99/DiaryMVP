@@ -32,8 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView.Adapter adapter;
     private String getTime;
-    private String A;
-    private ArrayList<String> testlist;
+    private String list;
     private ArrayList<ArrayList<String>> datalist;
 
 
@@ -50,15 +49,6 @@ public class MainActivity extends AppCompatActivity {
         // 데이터 받고, 저장하고, 불러오기
         setData();
         getData();
-        /*if (data != null){ // 처음 시작할 때는 파일 안에 데이터가 없어서, null 오류가 뜸. 그래서 if로 오류 안나게 함. if-else문에 똑같은 코드가 들어가서 너무 비효율적! 방법 생각해보기
-            getData();
-        }
-        else {
-            getData();
-        }*/
-        // 이렇게 한 이유는 처음 시작할 때는 파일 안에 데이터가 없어서 null로 인식되어 오류가 남.
-        // else로 하면 시작할 때마다, 맨 마지막으로 저장한 데이터가 뜸
-        // 데이터 저장을 파일로하는건 했는데, 쌓이는건 어떻게하는지 모르겠....다.
 
 
         // RecyclerView 설정 코드들
@@ -115,17 +105,45 @@ public class MainActivity extends AppCompatActivity {
         return getTime;
     }
 
+    protected void onActivityResult(int requestCode, int resultCode, Intent resultIntent) {
+        Log.d(MainActivity.class.getSimpleName(), "getTime: ");
+        System.out.println("@@onActivityResult@@");
+        super.onActivityResult(requestCode, resultCode, resultIntent);
+        if (requestCode == 1234 && resultCode == 5678) {
+            list = resultIntent.getStringExtra("data");
+            System.out.println("onActivityResult!!!! "+ list);
+        }
+    }
+    @Override
+    // SubActivity에서 데이터 넘기면 윗 함수 다음 일로 옴
+    // 여기서 넘겨받을때마다 리스트에 추가시키면 될듯함.
+    protected void onResume() {
+        System.out.println("@@onResume@@");
+        super.onResume();
+        setData();
+    }
+
+
     protected void setData(){ // 데이터 받아와서 저장하는 함수
         preferences = getSharedPreferences("listData", MODE_PRIVATE);  // SharedPreferences를 sFile이름, 기본모드로 설정
         SharedPreferences.Editor editor = preferences.edit();  // 저장을 하기위해 editor를 이용하여 값을 저장시켜준다.
         getTime();
 
+<<<<<<< HEAD
         Intent intent = getIntent();
         String getString = intent.getStringExtra("data");
         if(A != null){
             A = A.replace("[", "");
             A = A.replace("]", "");
             data = A.split(", ");
+=======
+        /*Intent intent = getIntent();
+        String getString = intent.getStringExtra("data");*/
+        if(list != null){
+            list = list.replace("[", "");
+            list = list.replace("]", "");
+            data = list.split(", ");
+>>>>>>> 9b4702148dac7840b877c5e604ffd9891da446ae
             System.out.println("data : " + data[0] + "," + data[1] + "," + data[2] + "," + data[3]);
             System.out.println("getTime : " + getTime);
 
@@ -141,14 +159,23 @@ public class MainActivity extends AppCompatActivity {
     }
     protected void getData(){ // 저장한 데이터 불러와서 집어넣는 함수
         System.out.println("getData 함수 실행은 됨");
+<<<<<<< HEAD
         listDataArrayList.add(new ListData(
                 preferences.getString("title", ""), preferences.getString("content", ""),
                 preferences.getString("score", ""), preferences.getString("weather", ""),
                 preferences.getString("date", "")
         ));
 
+=======
+>>>>>>> 9b4702148dac7840b877c5e604ffd9891da446ae
 
         if(data != null){
+            listDataArrayList.add(new ListData(
+                    preferences.getString("title", ""), preferences.getString("content", ""),
+                    preferences.getString("score", ""), preferences.getString("weather", ""),
+                    preferences.getString("date", "")
+            ));
+
             /*listDataArrayList.add(new ListData(data[0], data[1], data[2], data[3], getTime));
             testlist = new ArrayList<String>();
 
@@ -160,27 +187,6 @@ public class MainActivity extends AppCompatActivity {
             adapter.notifyDataSetChanged();
         }
     }
-
-    protected void onActivityResult(int requestCode, int resultCode, Intent resultIntent) {
-        Log.d(MainActivity.class.getSimpleName(), "getTime: ");
-        System.out.println("@@onActivityResult@@");
-        super.onActivityResult(requestCode, resultCode, resultIntent);
-        if (requestCode == 1234 && resultCode == 5678) {
-            A = resultIntent.getStringExtra("data");
-            System.out.println("onActivityResult!!!! "+ A);
-        }
-    }
-    @Override
-    // SubActivity에서 데이터 넘기면 윗 함수 다음 일로 옴
-    // 여기서 넘겨받을때마다 리스트에 추가시키면 될듯함.
-    protected void onResume() {
-        System.out.println("@@onResume@@");
-        super.onResume();
-        setData();
-
-
-    }
-
 }
 
 /*
