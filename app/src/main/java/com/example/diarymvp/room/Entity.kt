@@ -1,4 +1,4 @@
-package com.example.diarymvp
+package com.example.diarymvp.room
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

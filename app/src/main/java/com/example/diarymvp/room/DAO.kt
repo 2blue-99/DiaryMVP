@@ -1,4 +1,4 @@
-package com.example.diarymvp
+package com.example.diarymvp.room
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao

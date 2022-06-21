@@ -19,7 +19,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class MainActivity extends AppCompatActivity implements MainContract.View{
+
+
+
+
+
+public class MainActivity extends AppCompatActivity {
     private ArrayList<ListData> listDataArrayList;
     private TextView textViewDate;
     private String[] data;
@@ -115,8 +120,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         SharedPreferences.Editor editor = preferences.edit();  // 저장을 하기위해 editor를 이용하여 값을 저장시켜준다.
         getTime();
 
-        /*Intent intent = getIntent();
-        String getString = intent.getStringExtra("data");*/
+        Intent intent = getIntent();
+        String getString = intent.getStringExtra("data");
         if(A != null){
             A = A.replace("[", "");
             A = A.replace("]", "");
@@ -136,11 +141,11 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
     protected void getData(){ // 저장한 데이터 불러와서 집어넣는 함수
         System.out.println("getData 함수 실행은 됨");
-        /*listDataArrayList.add(new ListData(
+        listDataArrayList.add(new ListData(
                 preferences.getString("title", ""), preferences.getString("content", ""),
                 preferences.getString("score", ""), preferences.getString("weather", ""),
                 preferences.getString("date", "")
-        ));*/
+        ));
 
 
         if(data != null){

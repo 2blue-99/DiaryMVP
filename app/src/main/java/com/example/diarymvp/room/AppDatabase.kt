@@ -1,4 +1,4 @@
-package com.example.diarymvp
+package com.example.diarymvp.room
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
